@@ -1,7 +1,8 @@
 'use strict';
 angular.module('slick', []).directive('slick', [
   '$timeout',
-  function ($timeout) {
+  '$rootScope',
+  function ($timeout, $rootScope) {
     return {
       restrict: 'AEC',
       scope: {
@@ -53,6 +54,7 @@ angular.module('slick', []).directive('slick', [
       },
       link: function (scope, element, attrs) {
         var destroySlick, initializeSlick, isInitialized;
+
         destroySlick = function () {
           return $timeout(function () {
             var slider;
@@ -125,6 +127,7 @@ angular.module('slick', []).directive('slick', [
               }
             });
             slider.on('afterChange', function (event, slick, currentSlide, nextSlide) {
+              $rootScope.$broadcast('angular:slick:currentSlide', currentSlide);
               if (scope.onAfterChange) {
                 scope.onAfterChange();
               }
