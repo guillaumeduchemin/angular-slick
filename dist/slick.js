@@ -132,16 +132,20 @@ angular.module('slick', []).directive('slick', [
                 scope.onAfterChange();
               }
               if (currentIndex != null) {
-                return scope.$apply(function () {
+                // return scope.$apply(function () {
+                //   currentIndex = currentSlide;
+                //   return scope.currentIndex = currentSlide;
+                // });
+                return function () {
                   currentIndex = currentSlide;
                   return scope.currentIndex = currentSlide;
-                });
+                };
               }
             });
             return scope.$watch('currentIndex', function (newVal, oldVal) {
-              if (currentIndex != null && newVal != null && newVal !== currentIndex) {
-                return slider.slick('slickGoTo', newVal);
-              }
+              // if (currentIndex != null && newVal != null && newVal !== currentIndex) {
+                return slider.slick('slickGoTo', newVal, true);
+              // }
             });
           });
         };
